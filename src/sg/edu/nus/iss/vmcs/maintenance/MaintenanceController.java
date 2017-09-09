@@ -73,8 +73,7 @@ public class MaintenanceController {
             System.out.println("MaintenanceController.displayCoin:" + e);
         }
     }
-
-    // invoked in CoinDisplayListener
+  
     public void displayCoin(int idx) {
         StoreController sctrl = mCtrl.getStoreController();
         CashStoreItem item;
@@ -110,7 +109,7 @@ public class MaintenanceController {
         mpanel.getDrinksDisplay().getPriceDisplay().setValue(pr + "C");
     }
 
-    // TotalCashButtonListener
+// TotalCashButtonListener
     public void getTotalCash() {
         StoreController sctrl = mCtrl.getStoreController();
         int tc = sctrl.getTotalCash();
@@ -124,7 +123,7 @@ public class MaintenanceController {
         mpanel.displayTotalCoin(tcoin);
     }
 
-    // TransferCashButtonListener
+// TransferCashButtonListener
     // get all the cash from store and set store cash 0;
     public void transferAll() {
         StoreController sctrl = mCtrl.getStoreController();
@@ -148,6 +147,7 @@ public class MaintenanceController {
             System.out.println("MaintenanceController.transferAll:" + e);
         }
     }
+
 
     // StoreViewerListener
     public void changeStoreQty(char type, int idx, int qty) {
