@@ -66,6 +66,14 @@ public class MaintenanceController {
     }
 
     // invoked in CoinDisplayListener
+    public void displayCoin() {
+        try {
+            mpanel.getCoinDisplay().updateDisplay();
+        } catch (VMCSException e) {
+            System.out.println("MaintenanceController.displayCoin:" + e);
+        }
+    }
+  
     public void displayCoin(int idx) {
         StoreController sctrl = mCtrl.getStoreController();
         CashStoreItem item;
@@ -101,34 +109,45 @@ public class MaintenanceController {
         mpanel.getDrinksDisplay().getPriceDisplay().setValue(pr + "C");
     }
 
-    // TotalCashButtonListener
+// TotalCashButtonListener
     public void getTotalCash() {
         StoreController sctrl = mCtrl.getStoreController();
         int tc = sctrl.getTotalCash();
         mpanel.displayTotalCash(tc);
-
     }
 
-    // TransferCashButtonListener
+    // TotalCashButtonListener
+    public void getTotalCoin() {
+        StoreController sctrl = mCtrl.getStoreController();
+        int tcoin = sctrl.getTotalCoin();
+        mpanel.displayTotalCoin(tcoin);
+    }
+
+// TransferCashButtonListener
     // get all the cash from store and set store cash 0;
     public void transferAll() {
         StoreController sctrl = mCtrl.getStoreController();
         MachineryController machctrl = mCtrl.getMachineryController();
 
         int cc; // coin quantity;
+        int vl; // cash value;
 
         try {
-
+            this.displayCoin();
+            vl = sctrl.getTotalCash();
             cc = sctrl.transferAll();
             mpanel.displayCoins(cc);
+            mpanel.displayTotalCoin(cc);
+            mpanel.displayTotalCash(vl);
             machctrl.displayCoinStock();
             // the cash qty current is displayed in the Maintenance panel needs to be update to be 0;
             // not required.
-            mpanel.updateCurrentQtyDisplay(Store.CASH, 0);
+            //mpanel.updateCurrentQtyDisplay(Store.CASH, 0);
         } catch (VMCSException e) {
             System.out.println("MaintenanceController.transferAll:" + e);
         }
     }
+
 
     // StoreViewerListener
     public void changeStoreQty(char type, int idx, int qty) {
@@ -159,8 +178,6 @@ public class MaintenanceController {
             return;
         }
 
-        mpanel.initCollectCash();
-        mpanel.initTotalCash();
         mpanel.setActive(MaintenancePanel.DIALOG, true);
 
     }
